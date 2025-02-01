@@ -33,7 +33,7 @@ func main() {
 	})
 
 	e.POST("/daftar", controllers.StoreNasabah)
-	e.POST("/tabung", controllers.StoreTabungan)
+	e.POST("/tabung", controllers.Tabung)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

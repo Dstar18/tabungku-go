@@ -16,7 +16,7 @@ type TabunganValStore struct {
 	Nominal    int    `json:"nominal" validate:"required,numeric"`
 }
 
-func StoreTabungan(c echo.Context) error {
+func Tabung(c echo.Context) error {
 	// request struct validation
 	var tabungan TabunganValStore
 
