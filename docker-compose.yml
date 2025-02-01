@@ -1,0 +1,38 @@
+services:
+  # Service untuk PostgreSQL
+  postgres:
+    image: postgres:13
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: tabungdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Service untuk Adminer (web interface untuk PostgreSQL)
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - "8081:8080"
+
+  # Service untuk aplikasi Golang
+  app:
+    build: .
+    container_name: tabungku-go
+    environment:
+      - DB_HOST=localhost
+      - DB_PORT=5432
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=tabungdb
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
