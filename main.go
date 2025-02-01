@@ -1,7 +1,6 @@
 package main
 
 import (
-	"net/http"
 	"tabungku-go/controllers"
 	"tabungku-go/database"
 	"tabungku-go/models"
@@ -28,13 +27,10 @@ func main() {
 	utils.Logger.Info("Starting server on port 8080")
 
 	// public routes
-	e.GET("hello", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, Golang echo!")
-	})
-
-	e.POST("/daftar", controllers.StoreNasabah)
-	e.POST("/tabung", controllers.Deposit)
-	e.POST("/tarik", controllers.Withdraw)
+	e.POST("daftar", controllers.StoreNasabah)
+	e.POST("tabung", controllers.Deposit)
+	e.POST("tarik", controllers.Withdraw)
+	e.GET("saldo/:no_rekening", controllers.Balance)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

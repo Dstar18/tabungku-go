@@ -150,3 +150,31 @@ func Withdraw(c echo.Context) error {
 		},
 	})
 }
+
+func Balance(c echo.Context) error {
+	// request param id
+	param_no_rek := c.Param("no_rekening")
+
+	// request struct model
+	var tabunganM models.Tabungan
+
+	// check No Rekening is not already
+	checkNoRek := database.DB.Where("no_rekening = ?", param_no_rek).First(&tabunganM)
+	if checkNoRek.Error != nil {
+		utils.Logger.Warn("Nomor Rekening " + param_no_rek + " Not Found")
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"code":    400,
+			"message": "Nomor Rekening " + param_no_rek + " Not Found",
+		})
+	}
+
+	// return success
+	utils.Logger.Info("Check saldo successfully")
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"code":    200,
+		"message": "Check saldo successfully",
+		"data": map[string]interface{}{
+			"Saldo": tabunganM.Saldo,
+		},
+	})
+}
