@@ -18,14 +18,17 @@ func Connect() {
 		panic("Error loading .env file")
 	}
 
-	// Connect to DB
+	// Get variabel environment
+	dbHost := os.Getenv("DB_HOST")
+	dbPort := os.Getenv("DB_PORT")
+	dbUser := os.Getenv("DB_USER")
+	dbPassword := os.Getenv("DB_PASSWORD")
+	dbName := os.Getenv("DB_NAME")
+
+	// DSN PostgreSQL
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
-		"localhost",
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		"tabungdb",
-		"5432",
+		dbHost, dbUser, dbPassword, dbName, dbPort,
 	)
 
 	var err error

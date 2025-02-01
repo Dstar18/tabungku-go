@@ -3,9 +3,11 @@ services:
   postgres:
     image: postgres:13
     container_name: postgres-db
+    env_file:
+      - .env
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: tabungdb
     ports:
       - "5432:5432"
@@ -23,12 +25,9 @@ services:
   app:
     build: .
     container_name: tabungku-go
-    environment:
-      - DB_HOST=localhost
-      - DB_PORT=5432
-      - DB_USER=root
-      - DB_PASSWORD=root
-      - DB_NAME=tabungdb
+    env_file:
+      - .env
+    command: ["./tabungku-go", "--host=postgres", "--port=5432"]
     ports:
       - "8080:8080"
     depends_on:
